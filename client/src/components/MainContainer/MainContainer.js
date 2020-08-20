@@ -12,6 +12,10 @@ class MainContainer extends Component {
     winner: false,
   };
 
+  handleFakeClick = (id, clicked) => {
+    return this.state;
+  };
+
   handleClick = (id, clicked) => {
     const imageOrder = this.state.images;
 
@@ -35,10 +39,14 @@ class MainContainer extends Component {
       const newScore = score + 1;
       const newTopScore = newScore > topScore ? newScore : topScore;
       const newWinner = newScore === this.state.images.length ? true : false;
+      const newMessage =
+        newScore === this.state.images.length
+          ? "YOU WON!! Refresh to play again"
+          : "You  guessed correctly";
 
       return this.setState({
         image: imageOrder.sort(() => Math.random() - 0.5),
-        message: "You Guessed Correctly!",
+        message: newMessage,
         score: newScore,
         topScore: newTopScore,
         winner: newWinner,
@@ -69,7 +77,9 @@ class MainContainer extends Component {
                 name={image.name}
                 clicked={image.clicked}
                 image={image.image}
-                handleClick={this.handleClick}
+                handleClick={
+                  this.state.winner ? this.handleFakeClick : this.handleClick
+                }
               />
             ))}
           </div>
